@@ -1,0 +1,24 @@
+services:
+  mongo:
+    image: mongo:4.4
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  api:
+    image: node:12
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: "mongodb://mongo:27017/argentBankDB"
+    command: ["npm", "run", "dev:server"]
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
