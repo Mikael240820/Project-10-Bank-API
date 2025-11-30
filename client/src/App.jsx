@@ -4,6 +4,7 @@ import User from './pages/User';
 import SignIn from './pages/SignIn';
 import MainNav from './components/MainNav';
 import Footer from './components/Footer';
+import AuthRoute from './components/AuthRoute';
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<SignIn />} />
-        <Route path="/profile" element={<User />} />
+        <Route element={<AuthRoute />}>
+          <Route path="/profile" element={<User />} />
+        </Route>
       </Routes>
       <Footer />
     </Router>

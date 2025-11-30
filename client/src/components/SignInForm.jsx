@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ function SignInForm() {
   const [rememberMe, setRememberMe] = useState(false);
 
   const { login: loginAction, token, loading, error } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ function SignInForm() {
         } else {
           sessionStorage.setItem('token', token);
         }
-        useNavigate('/profile');
+        navigate('/profile');
       });
   };
 
