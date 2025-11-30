@@ -63,6 +63,14 @@ body {
   text-decoration: underline;
 }
 
+.logout-button {
+  border-color: #d13131;
+  background-color: #d13131;
+  color: #fff;
+  font-weight: bold;
+  padding: 5px;
+}
+
 .main-nav-logo {
   display: flex;
   align-items: center;

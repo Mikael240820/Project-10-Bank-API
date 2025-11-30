@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/authSlice';
+import { login, logout } from '../store/authSlice';
 
 export default function useAuth() {
   const token = useSelector((state) => state.auth.token);
   const loading = useSelector((state) => state.auth.loading);
   const error = useSelector((state) => state.auth.error);
 
-  const doLogin = (email, password) => useDispatch(login({ email, password }));
+  const dispatch = useDispatch();
+  const doLogin = (email, password) => dispatch(login({ email, password }));
+  const doLogout = () => dispatch(logout());
 
   return {
     token,
@@ -14,5 +16,6 @@ export default function useAuth() {
     loading,
     error,
     login: doLogin,
+    logout: doLogout,
   };
 }
