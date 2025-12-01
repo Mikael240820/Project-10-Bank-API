@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Account from '../components/Account';
 
 const accounts = [
@@ -22,11 +23,37 @@ const accounts = [
 ];
 
 function User() {
+  const [isEditing, setIsEditing] = useState(false);
+  const startEdit = () => setIsEditing(true);
+  const cancelEdit = () => setIsEditing(false);
+
+  const [editFirstName, setEditFirstName] = useState('Tony');
+  const [editLastName, setEditLastName] = useState('Jarvis');
+
   return (
     <main className="main bg-dark">
       <div className="header">
         <h1>Welcome back<br />Tony Jarvis!</h1>
-        <button className="edit-button">Edit Name</button>
+        {!isEditing ? (
+          <button className="edit-button" onClick={startEdit}>Edit Name</button>
+        ) : (
+          <form className="account-form">
+            <input
+              className="form-input"
+              type="text"
+              value={editFirstName}
+              onChange={(e) => setEditFirstName(e.target.value)}
+            />
+            <input
+              className="form-input"
+              type="text"
+              value={editLastName}
+              onChange={(e) => setEditLastName(e.target.value)}
+            />
+            <button className="save-button" type="submit">Save</button>
+            <button className="cancel-button" onClick={cancelEdit}>Cancel</button>
+          </form>
+        )}
       </div>
       <h2 className="sr-only">Accounts</h2>
       {accounts.map((acc, idx) => (

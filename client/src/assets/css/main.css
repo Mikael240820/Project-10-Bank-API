@@ -262,6 +262,36 @@ body {
   flex: 1;
 }
 
+.account-form {
+  max-width: 700px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.account-form .form-input {
+  width: 100%;
+  max-width: 285px;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.account-form .cancel-button,
+.account-form .save-button {
+  width: 150px;
+}
+
+.cancel-button {
+  border-color: #d13131;
+  background-color: #d13131;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.save-button,
 .edit-button {
   border-color: #00bc77;
   background-color: #00bc77;
@@ -271,6 +301,9 @@ body {
 }
 
 .header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   color: #fff;
   margin-bottom: 2rem;
 }
