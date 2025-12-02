@@ -7,7 +7,7 @@ function SignInForm() {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  const { login: loginAction, token, loading, error } = useAuth();
+  const { login: loginAction, loading, error } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {

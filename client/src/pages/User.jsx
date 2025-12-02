@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Account from '../components/Account';
+import useProfile from '../hooks/useProfile';
 
 const accounts = [
   {
@@ -24,16 +25,21 @@ const accounts = [
 
 function User() {
   const [isEditing, setIsEditing] = useState(false);
+  const { firstName, lastName, loading: profileLoading, error: profileError } = useProfile();
+  
   const startEdit = () => setIsEditing(true);
   const cancelEdit = () => setIsEditing(false);
 
   const [editFirstName, setEditFirstName] = useState('Tony');
   const [editLastName, setEditLastName] = useState('Jarvis');
 
+  if (profileLoading) return <main className="main bg-dark"><div>Loading...</div></main>;
+  if (profileError) return <main className="main bg-dark"><div style={{ color: 'red' }}>{profileError}</div></main>;
+
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
+        <h1>Welcome back<br />{firstName} {lastName}!</h1>
         {!isEditing ? (
           <button className="edit-button" onClick={startEdit}>Edit Name</button>
         ) : (

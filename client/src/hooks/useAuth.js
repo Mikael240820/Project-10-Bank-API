@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../store/authSlice';
 
+// Simplifie l'accès à l'état d'authentification Redux
+// Fournit le token, l'état de connexion, chargement, erreur et les actions login/logout
 export default function useAuth() {
   const token = useSelector((state) => state.auth.token);
   const loading = useSelector((state) => state.auth.loading);
