@@ -25,13 +25,24 @@ const accounts = [
 
 function User() {
   const [isEditing, setIsEditing] = useState(false);
-  const { firstName, lastName, loading: profileLoading, error: profileError } = useProfile();
+  const { firstName, lastName, loading: profileLoading, error: profileError, updateProfile } = useProfile();
+
+  const [editFirstName, setEditFirstName] = useState('');
+  const [editLastName, setEditLastName] = useState('');
+
+  const startEdit = () => {
+    setIsEditing(true);
+    setEditFirstName(firstName);
+    setEditLastName(lastName);
+  };
   
-  const startEdit = () => setIsEditing(true);
   const cancelEdit = () => setIsEditing(false);
 
-  const [editFirstName, setEditFirstName] = useState('Tony');
-  const [editLastName, setEditLastName] = useState('Jarvis');
+  const submitEdit = async (e) => {
+    e.preventDefault();
+    const res = await updateProfile({ firstName: editFirstName, lastName: editLastName });
+    if (res.ok) setIsEditing(false);
+  };
 
   if (profileLoading) return <main className="main bg-dark"><div>Loading...</div></main>;
   if (profileError) return <main className="main bg-dark"><div style={{ color: 'red' }}>{profileError}</div></main>;
@@ -43,7 +54,7 @@ function User() {
         {!isEditing ? (
           <button className="edit-button" onClick={startEdit}>Edit Name</button>
         ) : (
-          <form className="account-form">
+          <form className="account-form" onSubmit={submitEdit}>
             <input
               className="form-input"
               type="text"

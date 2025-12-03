@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import useApi from './useApi';
 import useAuth from './useAuth';
 
-// Gère la recupération de l'utilisateur (prénom/nom)
-// Retourne : { firstName, lastName, loading, error, fetchProfile }
+// Gère la recupération et la mise à jour de l'utilisateur (prénom/nom)
+// Retourne : { firstName, lastName, loading, error, fetchProfile, updateProfile }
 export default function useProfile() {
   const { apiFetch } = useApi();
   const { isAuthenticated } = useAuth();
@@ -36,12 +36,41 @@ export default function useProfile() {
   }, [apiFetch, isAuthenticated]);
 
   // Mettre à jour le profil utilisateur via l'API
-  // TODO...
+  const updateProfile = useCallback(async ({ firstName: f, lastName: l }) => {
+    if (!isAuthenticated) return { ok: false };
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { ok, data } = await apiFetch('/user/profile', {
+        method: 'PUT',
+        body: JSON.stringify({ firstName: f, lastName: l }),
+      });
+
+      if (ok && data.body) {
+        setFirstName(data.body.firstName);
+        setLastName(data.body.lastName);
+
+        return { ok: true, data };
+      }
+
+      setError('Erreur lors de la mise à jour du profil');
+      return { ok: false, data };
+    }
+    catch (err) {
+      setError('Erreur réseau');
+      return { ok: false };
+    }
+    finally {
+      setLoading(false);
+    }
+  }, [apiFetch, isAuthenticated]);
 
   // Récupère le profil au chargement
   useEffect(() => {
     fetchProfile();
   }, [fetchProfile]);
 
-  return { firstName, lastName, loading, error, fetchProfile };
+  return { firstName, lastName, loading, error, fetchProfile, updateProfile };
 }
