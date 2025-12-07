@@ -333,3 +333,18 @@ body {
     width: 200px;
   }
 }
+
+@media (max-width: 720px) {
+  .account-form {
+    width: 80%;
+  }
+
+  .account-form .form-input {
+    max-width: 100%;
+  }
+
+  .account-form .cancel-button,
+  .account-form .save-button {
+    width: 48%;
+  }
+}
