@@ -1,10 +1,12 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import useProfile from '../hooks/useProfile';
 
 function AuthLink() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, logout: logoutAction } = useAuth();
+  const { firstName, lastName } = useProfile();
 
   const handleLogout = () => {
     logoutAction();
@@ -17,16 +19,16 @@ function AuthLink() {
       return (
         <Link to="/profile" className="main-nav-item">
           <i className="fa fa-user-circle"></i>
-          Profil
+          {firstName} {lastName}
         </Link>
       );
     }
     else {
       return (
-        <button className="logout-button" onClick={handleLogout}>
+        <a href="#" className="main-nav-item" onClick={handleLogout}>
           <i className="fa fa-sign-out"></i>
           Sign Out
-        </button>
+        </a>
       );
     }
   }

@@ -1,15 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import useApi from './useApi';
 import useAuth from './useAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProfile } from '../store/authSlice';
 
 // Gère la recupération et la mise à jour de l'utilisateur (prénom/nom)
 // Retourne : { firstName, lastName, loading, error, fetchProfile, updateProfile }
 export default function useProfile() {
+  const dispatch = useDispatch();
+
   const { apiFetch } = useApi();
   const { isAuthenticated } = useAuth();
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const { firstName, lastName } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -23,8 +26,7 @@ export default function useProfile() {
     try {
       const { ok, data } = await apiFetch('/user/profile', { method: 'POST' });
       if (ok && data.body) {
-        setFirstName(data.body.firstName);
-        setLastName(data.body.lastName);
+        dispatch(setProfile({ firstName: data.body.firstName, lastName: data.body.lastName }));
       } else {
         setError('Erreur lors de la récupération du profil');
       }
@@ -33,7 +35,7 @@ export default function useProfile() {
     } finally {
       setLoading(false);
     }
-  }, [apiFetch, isAuthenticated]);
+  }, [apiFetch, isAuthenticated, dispatch]);
 
   // Mettre à jour le profil utilisateur via l'API
   const updateProfile = useCallback(async ({ firstName: f, lastName: l }) => {
@@ -49,9 +51,7 @@ export default function useProfile() {
       });
 
       if (ok && data.body) {
-        setFirstName(data.body.firstName);
-        setLastName(data.body.lastName);
-
+        dispatch(setProfile({ firstName: data.body.firstName, lastName: data.body.lastName }));
         return { ok: true, data };
       }
 
@@ -65,7 +65,7 @@ export default function useProfile() {
     finally {
       setLoading(false);
     }
-  }, [apiFetch, isAuthenticated]);
+  }, [apiFetch, isAuthenticated, dispatch]);
 
   // Récupère le profil au chargement
   useEffect(() => {

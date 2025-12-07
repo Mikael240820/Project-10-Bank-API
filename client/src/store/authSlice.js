@@ -26,14 +26,22 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     token: sessionStorage.getItem('token') || localStorage.getItem('token'),
+    firstName: '',
+    lastName: '',
     loading: false,
     error: null,
   },
   reducers: {
     logout: (state) => {
       state.token = null;
+      state.firstName = '';
+      state.lastName = '';
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');
+    },
+    setProfile: (state, action) => {
+      state.firstName = action.payload.firstName || '';
+      state.lastName = action.payload.lastName || '';
     },
   },
   extraReducers: (builder) => {
@@ -53,5 +61,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setProfile } = authSlice.actions;
 export default authSlice.reducer;
