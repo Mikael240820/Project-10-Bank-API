@@ -60,12 +60,14 @@ function User() {
               type="text"
               value={editFirstName}
               onChange={(e) => setEditFirstName(e.target.value)}
+              required
             />
             <input
               className="form-input"
               type="text"
               value={editLastName}
               onChange={(e) => setEditLastName(e.target.value)}
+              required
             />
             <button className="save-button" type="submit">Save</button>
             <button className="cancel-button" onClick={cancelEdit}>Cancel</button>
