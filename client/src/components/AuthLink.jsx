@@ -15,22 +15,18 @@ function AuthLink() {
 
   // Si l'utilisateur est connecté
   if (isAuthenticated) {
-    if (location.pathname !== '/profile') {
-      return (
+    return (
+      <div className="main-nav-group">
         <Link to="/profile" className="main-nav-item">
           <i className="fa fa-user-circle"></i>
           {firstName} {lastName}
         </Link>
-      );
-    }
-    else {
-      return (
         <a href="#" className="main-nav-item" onClick={handleLogout}>
           <i className="fa fa-sign-out"></i>
           Sign Out
         </a>
-      );
-    }
+      </div>
+    );
   }
 
   // Si l'utilisateur n'est pas connecté
